@@ -3,7 +3,7 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 // Data = [{..}, {..}, {..}, .....]
 // id: Number
-// full_name: String
+// name: String
 // link: String -> owner.html_url: (which is the link)
 // popularity: Number -> stargazers_count (repo 'followers')
 // Sort by stargazers_count for top 25
@@ -12,14 +12,14 @@ mongoose.connect('mongodb://localhost/fetcher');
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
   id: Number,
-  full_name: String,
+  name: String,
   link: String,
   popularity: Number
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
+let save = (params, cb) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
