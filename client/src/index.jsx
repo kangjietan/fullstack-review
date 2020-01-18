@@ -18,26 +18,25 @@ class App extends React.Component {
   }
 
   // ComponentDidMount for GET requests to display top 25
-  // Ajax GET
+  // On initial page load, make a GET request to server which
+  // will grab repos ordered by popularity and limited to 25
   componentDidMount() {
-    var testFun = this.testFun;
-    axios.get('http://localhost:1128/repos')
-      .then(function(response) {
-        console.log(response);
-        testFun(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    console.log('App loaded');
+    this.getAllRepos();
   }
 
+  // Set state of current repos
   testFun (data) {
     this.setState({
       repos: data
     });
   }
 
+
+  // Make a GET request to server which will grab repos
+  // ordered by popularity and limited to 25 only
   getAllRepos () {
+    // Need reference to this function inside then
     var testFun = this.testFun;
     axios.get('http://localhost:1128/repos')
       .then(function(response) {
@@ -49,7 +48,8 @@ class App extends React.Component {
       });
   }
 
-  // Ajax POST request to localhost/repos
+  // POST request will be sent to server
+  // when user searches for a user
   search (term) {
     console.log(`${term} was searched`);
     var getAllRepos = this.getAllRepos;
@@ -57,8 +57,6 @@ class App extends React.Component {
       .then(function(response) {
         // console.log(Array.isArray(response.data));
         // console.log(Array.isArray(response));
-        // postData = response.data;
-        // testFun(postData);
         getAllRepos();
         console.log('POST request finished!')
       })
