@@ -112,7 +112,17 @@ let save = (params, cb) => {
 }
 
 let getAll = (cb) => {
-
+  Repo.findAsync({}, null, {sort: {popularity: -1}})
+    .then(function(data) {
+      // data.sort({popularity: 1})
+      cb(data);
+    })
 }
 
 module.exports.save = save;
+module.exports.getAll = getAll;
+
+// module.exports = {
+//   save: ,
+//   getAll:
+// }
