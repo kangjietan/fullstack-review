@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+// mongoose.Promise = require('bluebird');
+var Promise = require("bluebird");
+Promise.promisifyAll(require("mongoose"));
 
 // Data = [{..}, {..}, {..}, .....]
 // id: Number
@@ -11,7 +14,11 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  id: Number,
+  id: {
+    type: Number,
+    index: true,
+    unique: true
+  },
   name: String,
   link: String,
   popularity: Number
@@ -24,76 +31,88 @@ let save = (params, cb) => {
   // This function should save a repo or repos to
   // the MongoDB
 
-  // Splice the entry out of the array if it exists inside the db
-  for (var i = 0; i < params.length; i++) {
-    if (Repo.find(params[i].id)) {
-      params.splice(i, 1);
-      i--;
-    }
+  if (params.length > 0) {
+    Repo.insertMany(params, function(err, docs) {
+      if (err) {
+        console.log(err);
+      } else {
+        // console.log('Insert multiple elements/repos', docs);
+        console.log('Insert multiple elements/repos');
+      }
+      cb(params);
+    });
   }
-  console.log('Params array', params);
 
-  Repo.insertMany(params, function(err, docs) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Insert multiple elements/repos', docs);
-    }
-    cb();
-  });
-
-  // var newRepo = {
-  //   id: 1,
-  //   name: 'Test',
-  //   link: 'Test123',
-  //   popularity: 0
+  // Splice the entry out of the array if it exists inside the db
+  // for (var i = 0; i < params.length; i++) {
+  //   if (Repo.find({id: params[i].id})) {
+  //     params.splice(i, 1);
+  //     i--;
+  //   }
   // }
 
-  // var repo = new Repo({
-  //   id: 1,
-  //   name: 'Test',
-  //   link: 'Test123',
-  //   popularity: 0
-  // });
+  // var test = [];
 
-  // repo.save(function(err) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log('Success')
-  //   }
-  //   cb();
-  // });
+  // for (var i = 0 ; i < params.length; i++) {
+  //   var currentRepo = params[i];
+  //   Repo.findAsync({id: params[i].id})
+  //     .then(function(user) {
+  //       // console.log('User', user);
+  //       if (user.length === 0) {
+  //         test.push(currentRepo);
+  //         var repo = new Repo(currentRepo);
+  //         repo.save(function (err) {
+  //           if (err) console.log(err);
+  //         });
+  //         // console.log('TEST', test);
+  //       }
+  //     })
+  //     .catch(function(err) {
+  //       console.log(err);
+  //     })
+  // }
 
-  // var arr = [
-  //   {
-  //     id: 1,
-  //     name: 'Test',
-  //     link: 'Test1234',
-  //     popularity: 0
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Test1',
-  //     link: 'Test1235',
-  //     popularity: 1
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Test2',
-  //     link: 'Test1236',
-  //     popularity: 2
-  //   }
-  // ]
+  // cb(test);
 
-  // Repo.insertMany(arr, function(err, docs) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log('Insert multiple elements/repos');
-  //   }
-  //   cb();
-  // });
+  // if (test.length > 0) {
+  //   console.log('INSERT TEST ARRAY');
+  //   Repo.insertMany(test, function(err, docs) {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       // console.log('Insert multiple elements/repos', docs);
+  //       console.log('Insert multiple elements/repos');
+  //     }
+  //     cb(test);
+  //   });
+  // } else {
+  //   Repo.insertMany(params, function(err, docs) {
+  //     console.log('INSERT PARAMS ARRAY');
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       // console.log('Insert multiple elements/repos', docs);
+  //       console.log('Insert multiple elements/repos');
+  //     }
+  //     cb(test);
+  //   });
+  // }
+
+  // Repo.findAsync({id: params.id})
+  //   .then(function(user) {
+  //     if (user.length === 0) {
+  //       console.log('INSERTING')
+  //       var repo = new Repo(params);
+  //       repo.save();
+  //     }
+  //   })
+  //   .then(() => {
+  //     cb();
+  //   })
+}
+
+let getAll = (cb) => {
+
 }
 
 module.exports.save = save;
