@@ -17,11 +17,19 @@ app.post('/repos', function (req, res) {
     // console.log(data);
     // res.end(JSON.stringify(data));
 
+    // INSERT AN ARRAY OF REPOS
     // Test server
     db.save(data, () => {
       console.log('CHECK DATABASE');
-      res.end();
+      res.json(data);
     });
+
+    // ONE BY ONE
+    // for (var i = 0; i < data.length; i++) {
+    //   db.save(data[i], () => {
+    //     res.end();
+    //   })
+    // }
   }
 
   github.getReposByUsername(req.body.term, callback);
@@ -30,6 +38,12 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  var callback = function(data) {
+    console.log('Retrieve Data');
+    res.json(data);
+  }
+
+  db.getAll(callback);
 });
 
 let port = 1128;
