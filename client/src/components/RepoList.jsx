@@ -9,7 +9,7 @@ const RepoList = (props) => (
       <tr>
         <td>ID</td>
         <td>Name</td>
-        <td>Link</td>
+        <td>UserLink</td>
         <td>Stars</td>
       </tr>
       {props.repos.map(repo => <Repo repo={repo}/>)}
