@@ -14,9 +14,16 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
 
   var callback = function(data) {
-    console.log(data);
-    res.end(JSON.stringify(data));
+    // console.log(data);
+    // res.end(JSON.stringify(data));
+
+    // Test server
+    db.save(data, () => {
+      console.log('CHECK DATABASE');
+      res.end();
+    });
   }
+
   github.getReposByUsername(req.body.term, callback);
 });
 
