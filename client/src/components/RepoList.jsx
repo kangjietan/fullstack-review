@@ -13,7 +13,7 @@ const RepoList = (props) => (
           <td>UserLink</td>
           <td>Stars</td>
         </tr>
-        {props.repos.map(repo => <Repo repo={repo}/>)}
+        {props.repos.map(repo => <Repo repo={repo} key={repo.id}/>)}
       </tbody>
     </table>
   </div>
