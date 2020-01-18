@@ -112,7 +112,7 @@ let save = (params, cb) => {
 }
 
 let getAll = (cb) => {
-  Repo.findAsync({}, null, {sort: {popularity: -1}})
+  Repo.findAsync({}, null, {sort: {popularity: -1}, limit: 25})
     .then(function(data) {
       // data.sort({popularity: 1})
       cb(data);
