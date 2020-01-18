@@ -19,25 +19,31 @@ let getReposByUsername = (user, cb) => {
     if (error) {
       console.log(error);
     } else {
-      // console.log('Here is the response!: ', body);
+      // Grab id, name, owner.html_url, stargazers_count
       var obj = JSON.parse(body);
       // console.log(obj);
-      var repoID = [];
-      obj.forEach(ele => {
-        repoID.push(ele.id);
-      });
 
-      cb(repoID);
+      // Push data as objs in array for db to insertMany [{}, {}, {}, ...]
+      var repos = [];
+      if (obj.length > 0) {
+        obj.forEach(repo => {
+          repos.push({
+            id: repo.id,
+            name: repo.name,
+            link: repo.owner.html_url,
+            popularity: repo.stargazers_count
+          });
+        });
+      }
 
-      // console.log(repoID);
-      // var test = Object.keys(body);
-      // console.log(test);
+      cb(repos);
     }
   }
 
   request(options, callback);
 }
 
+// test function
 // getReposByUsername('octocat');
 
 module.exports.getReposByUsername = getReposByUsername;
