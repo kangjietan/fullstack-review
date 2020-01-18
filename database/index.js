@@ -23,6 +23,21 @@ let save = (params, cb) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
+  var repo = new Repo({
+    id: 1,
+    name: 'Test',
+    link: 'Test123',
+    popularity: 0
+  });
+
+  repo.save(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Success')
+    }
+    cb();
+  })
 }
 
 module.exports.save = save;
