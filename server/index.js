@@ -15,13 +15,12 @@ app.post('/repos', function (req, res) {
 
   var callback = function(data) {
     // console.log(data);
-    // res.end(JSON.stringify(data));
 
     // INSERT AN ARRAY OF REPOS
     // Test server
     db.save(data, () => {
       console.log('CHECK DATABASE');
-      res.json(data);
+      res.sendStatus(200);
     });
 
     // ONE BY ONE
