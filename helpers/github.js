@@ -30,7 +30,7 @@ let getReposByUsername = (user, cb) => {
           repos.push({
             id: repo.id,
             name: repo.name,
-            link: repo.owner.html_url,
+            link: repo.html_url,
             popularity: repo.stargazers_count
           });
         });
