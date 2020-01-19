@@ -10,7 +10,10 @@ var Repo = (props) => {
     <tr>
       <td>{props.repo.id}</td>
       <td>{props.repo.name}</td>
-      <td>{props.repo.link}</td>
+      <td
+        style={{color: 'blue'}}
+        onClick={() => {window.location = props.repo.link}}>{props.repo.link}
+      </td>
       <td>{props.repo.popularity}</td>
     </tr>
   );
